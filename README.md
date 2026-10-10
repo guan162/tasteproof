@@ -1,79 +1,58 @@
-# TasteProof — Cross-Market Discovery Prototype
+# TasteProof / MarketCheck
 
-An open-source educational prototype for exploring cultural research questions and designing small validation experiments.
+**先用證據，再做生意。** / Make decisions with evidence, not fabricated AI guesses.
 
-## What is published
+**Public site:** https://guan162.github.io/tasteproof/
 
-- **Interactive public demo source:** [docs/index.html](docs/index.html) — a standalone, browser-only comparison of up to three target cities using **clearly fictional sample tags**.
-- **Small local API sample:** [app.py](app.py) — lightweight Python server, also using fictional sample data.
-- **Automated test starter:** [tests/test_app.py](tests/test_app.py) and [CI](.github/workflows/test.yml).
-- **License:** [MIT](LICENSE).
+TasteProof now includes a practical, Chinese-language **country-market screening tool**. It uses World Bank World Development Indicators (WDI) to show the population, internet-use share, GDP per capita, and a clearly identified proxy for people who use the internet. Each country/indicator reports its actual **source year** and an official indicator link. It also includes a configurable advertising test break-even calculator.
 
-> **Important:** The GitHub repository is public, but the demo website may not be live yet. GitHub Pages must first be enabled in the repository Settings. **No Qloo API key is used in this published demo.**
+The cultural-interest proof-of-concept remains separately at [demo.html](docs/demo.html) and is **explicitly labeled as fictional**. The [Qloo live integration screen](docs/live.html) still requires an authorized key and backend deployment; **no Qloo-powered live analysis has been demonstrated yet**.
 
-## Publish the demo with GitHub Pages
+## What is genuinely useful today?
 
-In repository **Settings → Pages**, under **Build and deployment**, select:
+1. **Compare two countries** among 16 supported economies, including Japan, South Korea, Singapore, Vietnam, Thailand, Malaysia, Indonesia, the Philippines, the US, UK, Australia, Germany, France, India, China, and Brazil.
+2. **Check original evidence:** population `SP.POP.TOTL`, internet users `IT.NET.USER.ZS`, and GDP per capita `NY.GDP.PCAP.CD`, with **independent data years** and per-indicator official source links.
+3. **Understand reach limitations:** the calculated estimate `population × percent using the internet` is a rough approximation of internet users, **not sales demand, addressable buyers, unique accounts, or a same-year census**.
+4. **Simulate a small ad test:** enter price, unit variable cost, total test advertising budget, assumed cost per click, and assumed conversion rate. See order contribution, break-even order count and break-even conversion rate. These are **user-authored assumptions, not revenue forecasts**.
+5. **Download a JSON evidence report** including inputs, source links, years and assumptions for independent review.
 
-1. **Source:** Deploy from a branch
-2. **Branch:** `main`
-3. **Folder:** `/docs`
-4. Click **Save**
+**The homepage does not invent market forecasts, purchase intent or cultural affinities.** Missing data or failed network requests are surfaced as errors.
 
-Once GitHub deploys it, the expected URL is `https://guan162.github.io/tasteproof/`. **Do not treat this expected URL as verified until it actually loads.**
+## Evidence retrieval and refresh
 
-## Local Python API demo
+- Primary cached source: [docs/data/market-data.json](docs/data/market-data.json).
+- **Data origin:** World Bank, World Development Indicators (WDI), retrieved from the [official WDI API](https://api.worldbank.org/v2/).
+- API keys are not required for this World Bank API.
+- A weekly scheduled GitHub Actions job [refresh-market-data.yml](.github/workflows/refresh-market-data.yml) executes [scripts/refresh_data.py](scripts/refresh_data.py), keeps each indicator's latest observed year, rejects fabricated/invalid values, and commits a new public JSON snapshot.
+- If the cached snapshot cannot be loaded, the frontend tries an **official WDI API live fetch** for the selected countries. If that also fails, the site displays an error rather than substitute mock data.
+- The current country list deliberately **does not represent Taiwan data**; the site discloses this scope limitation.
 
-```bash
-python app.py
-# http://127.0.0.1:8000/
-python -m unittest discover -s tests -v
-```
+**License & attribution:** World Bank WDI data, generally CC BY 4.0, with some third-party indicator producers. Data are adapted only in presentation and simple derived calculations, and the World Bank does not endorse this application. See [World Bank terms](https://data.worldbank.org/summary-terms-of-use).
 
-Only Python standard library is required for this sample.
-
-## Provenance and status
-
-- The current GitHub Pages demo is self-contained, with **invented data** and no Qloo integration.
-- The separate local v0.3 package has additional scan and live-adapter code that is **not yet fully committed to this repository**.
-- Real Qloo API calls, public live API backend, Devpost submission, and contest eligibility have **not** been verified.
-- **Cash spent: NT$0. Verified revenue: NT$0.**
-- This is an exploratory contest submission project, **not** a proven or recurring NT$30,000/month income mechanism.
-
-Official competition: https://qloo.devpost.com/rules
-
-
-## Phase 2: real Qloo integration — code complete, credentials/deployment pending
-
-The repository now contains a **Cloudflare Worker backend adapter** at [worker/index.mjs](worker/index.mjs), a [live-only UI](docs/live.html), a [deployment configuration](wrangler.toml), and [contract tests](tests/worker.test.mjs).
-
-- The Worker makes server-side calls to Qloo `GET /search` and `GET /v2/insights` with an `X-Api-Key` header.
-- An optional reference brand is resolved by **exact brand name**. If no brand is supplied, geographic taste tags are analyzed without brand-specific claims.
-- A scan covers one baseline and up to three candidate cities. It never fabricates results if Qloo returns an error.
-- The Worker has a built-in request ceiling and requires the Cloudflare Rate Limiting binding for live requests.
-- Onboarding must use a **legitimate Qloo API key**, from the official hackathon access process, in a private Cloudflare secret.
-- No successful authorized live Qloo round trip has been recorded yet. **Qloo mode is not active on the public site.**
-
-### Deployment procedure (only after API access is approved)
-
-A Cloudflare account is needed. These are administrative operations and must be authorized by the account holder; do not send credentials to a chat.
-
-1. In the project checkout, install Node.js and run `npx wrangler login` with your Cloudflare account.
-2. Review [wrangler.toml](wrangler.toml). It uses the allowed GitHub Pages origin and a five-requests-per-minute Cloudflare rate-limit binding.
-3. Set the secret with `npx wrangler secret put QLOO_API_KEY` **in the secure interactive prompt**, not in GitHub files. Determine the correct Qloo API host from the approved key's instructions; set `QLOO_API_ORIGIN` accordingly (the 2026 hackathon uses `https://hackathon.api.qloo.com`, while general Qloo documentation shows `https://api.qloo.com`).
-4. Run `npx wrangler deploy`. Confirm `GET https://YOUR-WORKER.workers.dev/health` reports `qloo_key_configured: true`.
-5. Edit [docs/config.js](docs/config.js) to set **only the public Worker origin** (never the key): `window.TASTEPROOF_WORKER_ORIGIN = "https://YOUR-WORKER.workers.dev";`.
-6. Test the public [Qloo analysis screen](https://guan162.github.io/tasteproof/live.html) with a supported city pair and a reference brand that Qloo can resolve. Compare results against actual Qloo API responses.
-7. Check Qloo usage rights, key quota and Cloudflare limits before allowing external judges or other traffic.
-
-**Do not claim this entry is Qloo-connected or competition-ready before live validation succeeds.** Qloo affinity/tag overlap is neither guaranteed representative demand nor estimated profit. A contest prize is a single payment, not recurring revenue.
-
-Official evidence: [Qloo API documentation](https://github.com/qloo/docs-public), [Agentic Hackathon rules](https://qloo.devpost.com/rules), [Cloudflare rate limiting](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/).
-
-### New tests
+## How to validate
 
 ```sh
+node --test tests/market.test.mjs
+python -m unittest discover -s tests -v
 node --test tests/worker.test.mjs
 ```
 
-The tests use stub Qloo data; they validate request structure, secret isolation, schema rejection, rate limiting, and input validation **without representing a real upstream connection**.
+GitHub Actions runs the test suites and handles Pages publishing. See [MarketCheck regression tests](.github/workflows/market-tests.yml).
+
+## Qloo hackathon track: work in progress
+
+TasteProof was initially built for the Qloo Agentic Hackathon. The competition API application was submitted and the Devpost entry is a draft, but the project **cannot be described as using live Qloo until an authenticated backend round trip has succeeded**.
+
+Existing source includes:
+- [Cloudflare Worker integration](worker/index.mjs) (prepared; not deployed).
+- [Qloo Live UI](docs/live.html) (inactive until configured).
+- [Deployment configuration](wrangler.toml) and [secure key-handling instructions](QLOO_DEPLOYMENT.md).
+- [English Devpost project draft](DEVPOST_SUBMISSION_DRAFT.md).
+
+A valid contest project still requires verified Qloo integration, functioning demonstration, and a completed Devpost submission. **A one-time prize is not a recurring revenue model.**
+
+## Financial status
+
+**Verified cash spent: NT$0. Verified real-world revenue: NT$0.** This is currently a public decision-support prototype, not an autonomous income-generating system.
+
+MIT license applies to the original website source code: [LICENSE](LICENSE).

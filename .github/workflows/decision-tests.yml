@@ -1,0 +1,20 @@
+name: Verify decision lab
+on:
+  push:
+    paths:
+      - 'docs/decision-engine.mjs'
+      - 'docs/decision-app.mjs'
+      - 'docs/decision-lab.html'
+      - 'tests/decision-engine.test.mjs'
+      - '.github/workflows/decision-tests.yml'
+  pull_request:
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test counterarguments, cost thresholds, and actual-evidence confidence intervals
+        run: node --test tests/decision-engine.test.mjs

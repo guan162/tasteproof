@@ -69,3 +69,14 @@ test("browser input strings calculate without a nonfinite error",()=>{
  assert.throws(()=>calculateTest({...scenario,conversion:"not-a-number"}),/成交率格式錯誤/);
  assert.throws(()=>calculateTest({...scenario,cost:""}),/每單直接成本尚未填寫/);
 });
+
+test("HTML uses unique IDs so calculator cannot accidentally read a section element",()=>{
+ const html=readFileSync(new URL("../docs/index.html",import.meta.url),"utf8");
+ const ids=[...html.matchAll(/\\bid="([^"]+)"/g)].map(m=>m[1]);
+ const seen=new Set();
+ for(const id of ids){assert.ok(!seen.has(id),"Duplicate HTML id: "+id);seen.add(id);}
+ assert.ok(seen.has("budget"),"Section anchor must remain");
+ assert.ok(seen.has("adBudget"),"Budget number input must use its own ID");
+ const app=readFileSync(new URL("../docs/market-app.mjs",import.meta.url),"utf8");
+ assert.match(app,/budget:\$\("adBudget"\)\.value/);
+});

@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
-import {INDICATORS,COUNTRIES,parseWorldBank,validateData,internetPopulation,calculateTest,worldBankIndicatorUrl} from "../docs/market-model.mjs";
+import {INDICATORS,COUNTRIES,parseWorldBank,validateData,internetPopulation,calculateTest,parseAmount,worldBankIndicatorUrl} from "../docs/market-model.mjs";
 
 test("country and indicators reflect actual WDI identifiers",()=>{
  assert.equal(COUNTRIES.JP,"日本");
@@ -57,4 +57,15 @@ test("website distinguishes real evidence from speculative commerce",()=>{
  assert.match(html,/不是/);
  assert.match(ui,/retrieveDirect/);
  assert.match(ui,/不會以假數字補齊/);
+});
+
+test("browser input strings calculate without a nonfinite error",()=>{
+ const scenario={price:"1000",cost:"400",budget:"3000",clickCost:"8",conversion:"1.5"};
+ const v=calculateTest(scenario);
+ assert.equal(v.margin,600);
+ assert.equal(v.breakEvenOrders,5);
+ assert.equal(v.expectedContribution,375);
+ assert.equal(parseAmount("1,5","成交率"),1.5);
+ assert.throws(()=>calculateTest({...scenario,conversion:"not-a-number"}),/成交率格式錯誤/);
+ assert.throws(()=>calculateTest({...scenario,cost:""}),/每單直接成本尚未填寫/);
 });

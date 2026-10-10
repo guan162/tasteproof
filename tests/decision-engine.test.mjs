@@ -9,6 +9,7 @@ test('scenario ranks actual user-entered unit economics, does not confuse revenu
  assert.equal(a.visits,375);
  assert.equal(a.expectedNet,375);
  assert.equal(a.neededOrders,55); // (30000 + 3000) / 600
+ assert.match(a.decisive,/回本不等於達標/);
  assert.ok(a.neededCVR>10 && a.neededCVR<20);
  assert.ok(a.breakEvenRate>1 && a.breakEvenRate<2);
  assert.equal(a.scenarios.length,3);

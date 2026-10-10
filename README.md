@@ -60,7 +60,7 @@ A Cloudflare account is needed. These are administrative operations and must be 
 
 1. In the project checkout, install Node.js and run `npx wrangler login` with your Cloudflare account.
 2. Review [wrangler.toml](wrangler.toml). It uses the allowed GitHub Pages origin and a five-requests-per-minute Cloudflare rate-limit binding.
-3. Set the secret with `npx wrangler secret put QLOO_API_KEY` **in the secure interactive prompt**, not in GitHub files. Determine the correct Qloo API host from the approved key's instructions; set `QLOO_API_ORIGIN` accordingly (the public docs use `https://api.qloo.com`).
+3. Set the secret with `npx wrangler secret put QLOO_API_KEY` **in the secure interactive prompt**, not in GitHub files. Determine the correct Qloo API host from the approved key's instructions; set `QLOO_API_ORIGIN` accordingly (the 2026 hackathon uses `https://hackathon.api.qloo.com`, while general Qloo documentation shows `https://api.qloo.com`).
 4. Run `npx wrangler deploy`. Confirm `GET https://YOUR-WORKER.workers.dev/health` reports `qloo_key_configured: true`.
 5. Edit [docs/config.js](docs/config.js) to set **only the public Worker origin** (never the key): `window.TASTEPROOF_WORKER_ORIGIN = "https://YOUR-WORKER.workers.dev";`.
 6. Test the public [Qloo analysis screen](https://guan162.github.io/tasteproof/live.html) with a supported city pair and a reference brand that Qloo can resolve. Compare results against actual Qloo API responses.

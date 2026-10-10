@@ -52,7 +52,7 @@ test("original indicator sources are encoded from enumerated ids",()=>{
 test("website distinguishes real evidence from speculative commerce",()=>{
  const html=readFileSync(new URL("../docs/index.html",import.meta.url),"utf8");
  const ui=readFileSync(new URL("../docs/market-app.mjs",import.meta.url),"utf8");
- for(const id of ["countryA","countryB","price","variableCost","budget","cpc","conversion"])assert.ok(html.includes('id="'+id+'"'));
+ for(const id of ["countryA","countryB","price","variableCost","adBudget","cpc","conversion"])assert.ok(html.includes('id="'+id+'"'));
  assert.match(html,/世界銀行/);
  assert.match(html,/不是/);
  assert.match(ui,/retrieveDirect/);

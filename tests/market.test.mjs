@@ -72,7 +72,7 @@ test("browser input strings calculate without a nonfinite error",()=>{
 
 test("HTML uses unique IDs so calculator cannot accidentally read a section element",()=>{
  const html=readFileSync(new URL("../docs/index.html",import.meta.url),"utf8");
- const ids=[...html.matchAll(/\\bid="([^"]+)"/g)].map(m=>m[1]);
+ const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
  const seen=new Set();
  for(const id of ids){assert.ok(!seen.has(id),"Duplicate HTML id: "+id);seen.add(id);}
  assert.ok(seen.has("budget"),"Section anchor must remain");

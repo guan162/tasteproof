@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="TasteProof: a transparent cross-market hypothesis explorer (fictional demo data).">
+<title>TasteProof • Market Discovery Lab</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#eff6f5;background:#0b1719}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 8% 0%,#173f3c 0,transparent 35%),radial-gradient(circle at 100% 30%,#2f303b 0,transparent 40%),#0b1719}
+.wrapper{max-width:1080px;margin:auto;padding:36px 22px 90px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:68px}
+.brand{font-weight:800;letter-spacing:-.05em;font-size:25px}.brand b{color:#b5e5ab}
+.pill{border:1px solid #46635d;border-radius:999px;font-size:12px;padding:7px 11px;color:#b7c8c5}
+.eyebrow{letter-spacing:.16em;color:#a8cdb8;font-size:12px;text-transform:uppercase;font-weight:700}
+h1{font-size:clamp(38px,7vw,75px);line-height:1.04;letter-spacing:-.06em;max-width:860px;margin:14px 0}
+h1 em{font-style:normal;color:#b5e5ab}
+.intro{max-width:680px;color:#adc2bd;font-size:17px;line-height:1.6}
+.warning{border-left:3px solid #dcb87d;background:#342d22;padding:14px 16px;color:#ebd7b7;font-size:14px;line-height:1.5;margin:28px 0 42px;border-radius:0 10px 10px 0}
+.layout{display:grid;grid-template-columns:minmax(280px,390px) minmax(0,1fr);gap:18px;align-items:start}
+.panel{border:1px solid #314a46;background:#102225f0;border-radius:20px;padding:25px;box-shadow:0 20px 60px #0003}
+h2{font-size:19px;letter-spacing:-.02em;margin:0 0 22px}
+label{display:block;font-size:12px;font-weight:700;color:#aac3bb;margin:18px 0 7px}
+input,select{display:block;width:100%;color:#f4faf7;background:#162e30;border:1px solid #42635c;border-radius:10px;padding:13px 12px;font:inherit;outline:none}
+input:focus,select:focus{border-color:#b5e5ab;box-shadow:0 0 0 3px #b5e5ab22}
+option{background:#14292b}.checks{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.choice{display:flex;align-items:center;gap:8px;border:1px solid #3a5650;border-radius:9px;padding:10px;cursor:pointer;font-size:13px}
+.choice input{width:auto;margin:0;accent-color:#a8dea4}
+button{border:0;border-radius:11px;width:100%;margin-top:24px;background:#b5e5ab;color:#13251e;font-weight:800;font-size:15px;padding:15px;cursor:pointer}
+button:hover{background:#d0f3bd}button:focus-visible{outline:3px solid white;outline-offset:3px}
+small,footer{font-size:12px;color:#91aaa3;line-height:1.6}
+.metricrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.metric{padding:16px;background:#173133;border-radius:12px;border:1px solid #36524d}
+.metric span{display:block;color:#92ada5;font-size:12px}.metric strong{display:block;font-size:29px;margin-top:5px}
+#empty{color:#9eb6af;text-align:center;padding:80px 10px}
+.results[hidden]{display:none}
+.market{border:1px solid #35564f;padding:15px;border-radius:12px;margin-top:11px;background:#132c2d}
+.market strong{display:block;font-size:16px}.market small{display:block;margin-top:5px}
+.meter{height:6px;border-radius:999px;background:#294644;margin-top:10px;overflow:hidden}.meter i{display:block;height:100%;background:#b5e5ab}
+.subheading{font-size:13px;letter-spacing:.08em;color:#c4e9c4;text-transform:uppercase;margin-top:28px}
+.note{padding:14px;background:#24322e;border:1px solid #4c6759;border-radius:11px;color:#dae9df;line-height:1.6}
+details{font-size:13px;color:#acc5be;margin-top:16px}summary{cursor:pointer}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;color:#b6cdbf}
+footer{border-top:1px solid #2c4741;margin-top:50px;padding-top:18px}
+a{color:#c5e8b8}
+@media(max-width:760px){header{margin-bottom:44px}.layout{grid-template-columns:1fr}.panel{padding:18px}.wrapper{padding:25px 15px 50px}}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<header><div class="brand">taste<b>proof</b><span style="color:#809b92;font-weight:400"> / lab</span></div><div class="pill">v0.3 · Offline interactive demo</div></header>
+<section><div class="eyebrow">Market Intelligence, Without False Certainty</div>
+<h1>Explore cultural <em>blind spots</em> before launching.</h1>
+<p class="intro">Compare a reference market with up to three destinations. TasteProof highlights hypothetical differences, ranks where to investigate, and proposes a low-cost experiment.</p></section>
+<div class="warning"><strong>Transparency first.</strong> This public demo runs on explicitly fictional sample data. It does not access Qloo or predict demand, revenue, consumer behavior or success. Real Qloo integration requires a server-side API key and validation.</div>
+<div class="layout">
+<div class="panel"><h2>01 / Set up your market scan</h2>
+<label for="brand">Brand or concept</label><input id="brand" maxlength="80" placeholder="e.g. Aurora Studio" value="Aurora Studio">
+<label for="sector">Sector</label><select id="sector"><option>Coffee</option><option>Lifestyle</option><option>Beauty</option></select>
+<label for="base">Reference city</label><select id="base"></select>
+<label>Compare against up to 3 cities</label><div class="checks" id="targets"></div>
+<button id="scan">Run demo analysis →</button>
+<p><small>This is an educational hypothesis generator, not a substitute for user interviews or a validated market study.</small></p></div>
+<div class="panel" aria-live="polite"><h2>02 / Evidence & next action</h2>
+<div id="empty">Select markets and run the demo to see a transparent comparison.</div>
+<div class="results" id="results" hidden>
+<div class="metricrow"><div class="metric"><span>Markets examined</span><strong id="count">—</strong></div><div class="metric"><span>Largest list difference</span><strong id="max">—</strong></div></div>
+<h3 class="subheading">Ranked exploratory differences</h3><div id="ranked"></div>
+<h3 class="subheading">Suggested low-risk experiment</h3><p class="note" id="hypothesis"></p>
+<details><summary>How these numbers were produced</summary><p>The score is Jaccard distance between small invented category-tag lists: 1 − intersection/union. It is <strong>not</strong> a validated cultural compatibility measure, and ranking does not imply market potential.</p><pre id="trace"></pre></details>
+</div></div>
+</div>
+<footer>Built for experimentation · Fictional sample data only · <a href="https://github.com/guan162/tasteproof">Open-source repository</a> · <a href="https://qloo.devpost.com/">Hackathon information</a></footer>
+</div>
+<script>
+"use strict";
+const markets={
+"Tokyo":{Coffee:["espresso","craft","minimal design","seasonal drinks"],Lifestyle:["minimal design","craft","architecture","sustainability"],Beauty:["skincare","subtle color","ritual","packaging"]},
+"Taipei":{Coffee:["craft","milk tea","night market","seasonal drinks"],Lifestyle:["street culture","craft","design","food"],Beauty:["skincare","color","ritual","street culture"]},
+"Seoul":{Coffee:["espresso","desserts","trendy interiors","social"],Lifestyle:["street culture","fashion","trendy interiors","design"],Beauty:["skincare","color","trends","social"]},
+"London":{Coffee:["espresso","indie cafes","design","social"],Lifestyle:["music","design","sustainability","vintage"],Beauty:["skincare","indie brands","sustainability","packaging"]},
+"New York":{Coffee:["espresso","craft","fast pace","indie cafes"],Lifestyle:["music","street culture","vintage","design"],Beauty:["skincare","indie brands","color","packaging"]},
+"Paris":{Coffee:["espresso","pastries","indie cafes","ritual"],Lifestyle:["fashion","vintage","craft","architecture"],Beauty:["ritual","packaging","fashion","subtle color"]}};
+const cityNames=Object.keys(markets),base=document.getElementById("base"),targets=document.getElementById("targets");
+for(const city of cityNames){const o=document.createElement("option");o.value=city;o.textContent=city;base.appendChild(o);
+const lab=document.createElement("label");lab.className="choice";lab.style.margin=0;
+const check=document.createElement("input");check.type="checkbox";check.value=city;check.checked=["Taipei","Seoul","London"].includes(city);
+const span=document.createElement("span");span.textContent=city;lab.append(check,span);targets.appendChild(lab);}
+base.value="Tokyo";
+function analyze(){
+const sector=document.getElementById("sector").value,origin=base.value,brand=document.getElementById("brand").value.trim()||"Your concept";
+const selected=[...targets.querySelectorAll("input:checked")].map(x=>x.value).filter(x=>x!==origin);
+if(!selected.length||selected.length>3){alert("Select 1 to 3 target cities distinct from the reference city.");return;}
+const source=new Set(markets[origin][sector]);
+const ranked=selected.map(city=>{const tags=new Set(markets[city][sector]);const shared=[...source].filter(x=>tags.has(x));const unique=[...tags].filter(x=>!source.has(x));
+const union=new Set([...source,...tags]);return{city,shared,unique,score:Math.round(100*(1-shared.length/union.size))};}).sort((a,b)=>b.score-a.score);
+document.getElementById("count").textContent=ranked.length;
+document.getElementById("max").textContent=ranked[0].score+"%";
+const list=document.getElementById("ranked");list.replaceChildren();
+for(const item of ranked){const box=document.createElement("div");box.className="market";const title=document.createElement("strong");title.textContent=item.city+" · "+item.score+"% illustrative difference";
+const note=document.createElement("small");note.textContent="Shared tags: "+(item.shared.join(", ")||"none")+" | Target-only: "+(item.unique.join(", ")||"none");
+const bar=document.createElement("div");bar.className="meter";const inner=document.createElement("i");inner.style.width=item.score+"%";bar.append(inner);box.append(title,note,bar);list.append(box);}
+document.getElementById("hypothesis").textContent="For “"+brand+"” in "+ranked[0].city+", try two prototype messages: one referencing “"+(ranked[0].unique[0]||"local relevance")+"”, and one referencing “"+(ranked[0].shared[0]||"existing brand positioning")+"”. Test them with opt-in participants before making any market investment.";
+document.getElementById("trace").textContent=JSON.stringify({source:"FICTIONAL SAMPLE DATA",sector,origin,baseline_tags:[...source],markets:ranked,formula:"1 - intersection / union"},null,2);
+document.getElementById("empty").hidden=true;document.getElementById("results").hidden=false;}
+document.getElementById("scan").addEventListener("click",analyze);
+</script>
+</body></html>

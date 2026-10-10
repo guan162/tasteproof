@@ -1,0 +1,115 @@
+<!doctype html><html lang="zh-Hant"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TasteProof | 市場假設反證實驗室</title>
+<meta name="description" content="把商業想法轉成可驗證的假設，檢查成本、分析風險、規劃小額實驗。使用真實的公開經濟指標並明確標示證據不足的部分。">
+<style>
+:root{font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;background:#0a161d;color:#f2f6f3;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top right,#263640 0,transparent 44%),#0a161d}
+.wrap{max-width:1180px;margin:0 auto;padding:26px 24px 75px}
+a{color:#bbefcb}.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:59px}
+.brand{font-size:22px;font-weight:800;letter-spacing:-.04em}.brand span{color:#b9ecc9}.nav a{font-size:13px}
+.eyebrow{font:800 12px/1.4 ui-monospace,monospace;letter-spacing:.14em;color:#a2d5b8}
+h1{font-size:clamp(37px,5.5vw,65px);line-height:1.15;max-width:950px;letter-spacing:-.055em;margin:16px 0 14px}
+h1 span{color:#b9ecc9}p{line-height:1.75}.intro{font-size:16px;max-width:800px;color:#aec4c0}
+.warning{border:1px solid #635340;background:#302a25;border-radius:12px;padding:13px 16px;font-size:13px;color:#e7d3bb;line-height:1.7;margin:25px 0 30px}
+.layout{display:grid;grid-template-columns:0.85fr 1.15fr;gap:19px;align-items:start}
+.panel{border:1px solid #365356;background:#10272e;border-radius:17px;padding:25px;box-shadow:0 15px 40px #0002}
+h2{font-size:23px;letter-spacing:-.04em;margin:0 0 18px}h3{font-size:17px;margin:16px 0 9px}
+label{display:block;font-size:13px;color:#b3d0cb;font-weight:650;margin-top:14px}
+label input,label select,label textarea{margin-top:6px}
+input,select,textarea{width:100%;font:inherit;font-size:14px;color:#f6fcf9;background:#19383e;border:1px solid #45676a;padding:12px 13px;border-radius:9px;outline:none;min-height:45px}
+textarea{min-height:79px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:#b9ecc9;box-shadow:0 0 0 2px #b9ecc930}
+.fieldgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 15px}
+button{background:#b9ecc9;color:#11261d;padding:13px 15px;font:inherit;font-weight:800;border:0;border-radius:9px;cursor:pointer}
+button:hover{background:#d7f5df}.full{width:100%;margin-top:19px}
+.outline{background:transparent;border:1px solid #527570;color:#cdecd8}.outline:hover{background:#234147}
+.muted{font-size:12px;color:#a5bfb7}
+#status{font-size:13px;color:#f8c29f;min-height:18px;margin-top:11px}
+.card{padding:18px;border:1px solid #375759;border-radius:12px;margin-top:13px;background:#16333b}
+.card p{margin:6px 0;font-size:14px;color:#bdcfcb}
+.label{font:750 11px ui-monospace,monospace;letter-spacing:.09em;color:#b9ecc9}
+.metricGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.metric{background:#18393d;border:1px solid #3d6060;border-radius:10px;padding:15px}
+.metric small{display:block;color:#bad2c9}.metric strong{font-size:24px;display:block;margin-top:6px;letter-spacing:-.035em}
+.risky{color:#ffd3ae}.good{color:#b9ecc9}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border-bottom:1px solid #365054;text-align:left;padding:11px 6px;vertical-align:top}
+th{color:#a5bbb6;font-weight:550}
+td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.sectionLabel{font:800 12px ui-monospace,monospace;letter-spacing:.1em;color:#a4d7bd;margin:26px 0 11px}
+#result[hidden],#observedResult[hidden]{display:none}
+.lower{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:19px}
+.note{background:#283832;padding:13px 15px;font-size:13px;border-radius:10px;color:#c8ded4;line-height:1.75}
+footer{border-top:1px solid #375558;margin-top:45px;padding-top:20px;color:#99b1ae;font-size:12px;line-height:1.8}
+@media(max-width:850px){.layout,.lower{grid-template-columns:1fr}.nav{margin-bottom:33px}}
+@media(max-width:460px){.wrap{padding:20px 14px 55px}.fieldgrid{grid-template-columns:1fr}.metric strong{font-size:20px}}
+</style></head><body>
+<div class="wrap">
+<nav class="nav"><div class="brand">taste<span>proof</span> / LAB</div><a href="./">← 返回市場資料工具</a></nav>
+<header><div class="eyebrow">HYPOTHESIS CHALLENGER · BETA</div>
+<h1>好的 AI 不該只會附和你。<br><span>它應該先挑戰你的想法。</span></h1>
+<p class="intro">輸入想進入的市場與商業條件。系統會找出最容易讓計畫失敗的前提，計算需要通過的驗證門檻，列出支持與缺失的證據，設計一場小額反證實驗。</p>
+<div class="warning"><strong>透明聲明：</strong>這是可運作的「規則式決策引擎」原型，並非已接入大型語言模型的自主 AI。市場總體數據由世界銀行提供；產品需求與 Qloo 文化偏好資料尚待正式 API 權限。沒有證據的地方不會捏造。</div></header>
+<div class="layout">
+<section class="panel" aria-label="建立商業假設"><h2>01 / 告訴我你的想法</h2>
+<label for="idea">商業構想<textarea id="idea" maxlength="160">我想在日本推出高價精品咖啡品牌</textarea></label>
+<label for="market">目標國家<select id="market"></select></label>
+<div class="fieldgrid">
+<label for="price">售價 NT$<input id="price" type="number" min="1" value="1000"></label>
+<label for="cost">每單直接成本 NT$<input id="cost" type="number" min="0" value="400"></label>
+<label for="cpc">假設每次點擊 NT$<input id="cpc" type="number" min=".01" value="8"></label>
+<label for="conversion">假設成交率 %<input id="conversion" type="number" min="0" max="100" value="1.5"></label>
+<label for="budget">最多測試預算 NT$<input id="budget" type="number" min="1" max="3000" value="3000"></label>
+<label for="desired">期望測試淨利 NT$<input id="desired" type="number" min="0" value="30000"></label>
+</div>
+<p class="muted">每個數字都是你的假設，不會自動變成「真實數據」。預算限制是本次挑戰的 NT$3,000。</p>
+<button class="full" id="run">開始挑戰我的商業想法 →</button><div id="status" role="status"></div>
+</section>
+<section class="panel" aria-label="審查結果">
+<h2>02 / 反證報告</h2>
+<div id="empty" class="note">按左側按鈕，系統會產生可被推翻的商業假設、損益敏感度、真實資料與下一步驗證計畫。</div>
+<div id="result" hidden>
+<div class="sectionLabel">核心判斷 · 不代表保證獲利</div>
+<div class="card"><div class="label" id="verdictType">初步判斷</div><h3 id="verdict"></h3><p id="verdictWhy"></p></div>
+<div class="sectionLabel">計畫最脆弱的四個數字</div>
+<div class="metricGrid">
+<div class="metric"><small>每單毛利</small><strong id="margin"></strong></div>
+<div class="metric"><small>回本所需成交率</small><strong id="breakEven"></strong></div>
+<div class="metric"><small>達成期望淨利的訂單數</small><strong id="orders"></strong></div>
+<div class="metric"><small>該目標所需成交率</small><strong id="targetRate"></strong></div>
+</div>
+<div class="sectionLabel">不要只看最樂觀的一種情況</div>
+<table><thead><tr><th>情境</th><th>成交率</th><th>試算損益</th></tr></thead><tbody id="scenarioRows"></tbody></table>
+<div class="sectionLabel">證據審查簿：已知與未知</div><div id="dossier"></div>
+<div class="sectionLabel">下一步：可執行的反證實驗</div><div id="experiments"></div>
+<button class="outline full" id="export">下載完整驗證計畫（JSON）</button>
+</div></section>
+</div>
+<div class="lower">
+<section class="panel"><h2>03 / 把假設換成真實結果</h2>
+<p class="muted">只有你真的投放、有人點擊並完成付款後，才填入觀察結果。不要把上面的預估訂單填在這裡。</p>
+<div class="fieldgrid">
+<label for="clicks">實際點擊次數<input id="clicks" type="number" min="1" placeholder="例如 375"></label>
+<label for="paidOrders">實際已付款訂單<input id="paidOrders" type="number" min="0" placeholder="例如 4"></label>
+<label for="spend">實際花費 NT$<input id="spend" type="number" min="0" placeholder="例如 3000"></label>
+</div>
+<button class="full outline" id="evaluate">評估真實觀測結果</button>
+<p id="observedError" class="muted"></p>
+<div id="observedResult" hidden class="card" aria-live="polite"></div>
+</section>
+<section class="panel"><h2>04 / 什麼才算真正的證據？</h2>
+<div class="card"><div class="label">世界銀行 WDI · 真實宏觀資料</div>
+<p id="macroStatus">正在讀取公開資料…</p>
+<div id="macroEvidence" class="muted"></div>
+</div>
+<div class="card"><div class="label">Qloo 文化偏好 · 尚未驗證</div>
+<p>需要核准的 API 金鑰與伺服器連線。沒有 Qloo 數據，就不能聲稱「日本人比較喜歡這種咖啡」。</p>
+<p><a href="./live.html">查看 Qloo 正式接入進度 ↗</a></p></div>
+<div class="note">此工具不能回答「人們一定會買嗎？」它能回答「目前有哪些前提還沒有證據，以及最小成本如何驗證？」</div>
+</section>
+</div>
+<footer>開放原始碼：<a href="https://github.com/guan162/tasteproof">guan162/tasteproof</a> · 資料來源：世界銀行 World Development Indicators · 原始碼與概念驗證可供審核。此網站不提供投資建議或保證營收。</footer>
+</div>
+<script type="module" src="./decision-app.mjs?v=1"></script>
+</body></html>

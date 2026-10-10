@@ -169,7 +169,7 @@ initCountries();
 $("compareBtn").addEventListener("click",changeMarkets);
 $("calcBtn").addEventListener("click",calc);
 // Keep the results up to date as each number is changed (no button press required).
-for (const inputId of ["price","variableCost","budget","cpc","conversion"]) {
+for (const inputId of ["price","variableCost","adBudget","cpc","conversion"]) {
   $(inputId).addEventListener("input",calc);
 }
 $("report-action").addEventListener("click",saveReport);

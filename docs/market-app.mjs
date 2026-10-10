@@ -1,4 +1,4 @@
-import {INDICATORS, COUNTRIES, internetPopulation, calculateTest, worldBankIndicatorUrl, validateData, parseWorldBank} from "./market-model.mjs?v=20261011-2";
+import {INDICATORS, COUNTRIES, internetPopulation, calculateTest, worldBankIndicatorUrl, validateData, parseWorldBank} from "./market-model.mjs?v=20261011-3";
 
 const $ = id => document.getElementById(id);
 const format = new Intl.NumberFormat("zh-TW",{maximumFractionDigits:1});

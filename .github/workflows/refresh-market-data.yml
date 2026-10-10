@@ -29,5 +29,15 @@ jobs:
             echo "No dataset changes"
           else
             git commit -m "data: refresh verified World Bank indicator snapshot"
-            git push
+            for attempt in 1 2 3 4; do
+              git fetch origin main
+              git rebase origin/main
+              if git push origin HEAD:main; then
+                echo "Published official WDI snapshot"
+                exit 0
+              fi
+              sleep 5
+            done
+            echo "Could not push WDI snapshot after rebasing"
+            exit 1
           fi

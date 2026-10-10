@@ -7,6 +7,10 @@ on:
       - 'docs/market-app.mjs'
       - 'docs/data/market-data.json'
       - 'tests/e2e.cjs'
+      - 'tests/decision-browser.cjs'
+      - 'docs/decision-engine.mjs'
+      - 'docs/decision-app.mjs'
+      - 'docs/decision-lab.html'
       - '.github/workflows/browser-tests.yml'
   workflow_dispatch:
 jobs:
@@ -33,4 +37,4 @@ jobs:
             sleep 1
           done
       - name: Click form, recalculate, verify sourced countries and export
-        run: node --test tests/e2e.cjs
+        run: node --test tests/e2e.cjs tests/decision-browser.cjs

@@ -27,3 +27,11 @@
 - 已驗證收入：NT$0。
 - 現階段驗收：Github Actions 程式測試通過不等於 Qloo 官方 API 活資料驗證通過。
 - 比賽獎金若得獎是一次性收入，不是每月 NT$30,000 的保證收益。
+
+## 2026-10-11 最新狀態
+
+依申請完成確認畫面，Qloo Agent Hackathon API 金鑰申請**已送出並由表單確認收件**，待官方審核並以電子郵件發送金鑰。本紀錄不包含任何金鑰、電子郵件或個人識別資料。
+
+Devpost 個人帳號已建立；**請另確認是否已按 [Qloo Agentic Hackathon](https://qloo.devpost.com/) 的 Join Hackathon 完成該競賽報名**。單獨建立 Devpost 帳號和提交 API 申請表不代表已完成競賽報名，更不代表作品已提交。
+
+在金鑰未到、Worker 未部署前，公開網站只提供虛構資料展示，Qloo 真實介接仍待驗證，已實現收入 NT$0。

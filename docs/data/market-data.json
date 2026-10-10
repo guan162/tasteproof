@@ -1,0 +1,237 @@
+{
+  "countries": {
+    "AU": {
+      "IT.NET.USER.ZS": {
+        "value": 96.13140106,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 65129.7227990563,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 27614411,
+        "year": 2025
+      }
+    },
+    "BR": {
+      "IT.NET.USER.ZS": {
+        "value": 84.46347227,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 10713.2856869511,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 212812405,
+        "year": 2025
+      }
+    },
+    "CN": {
+      "IT.NET.USER.ZS": {
+        "value": 91.6,
+        "year": 2025
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 13861.970224368,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 1406585000,
+        "year": 2025
+      }
+    },
+    "DE": {
+      "IT.NET.USER.ZS": {
+        "value": 93.49999579,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 60496.4350820414,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 83491249,
+        "year": 2025
+      }
+    },
+    "FR": {
+      "IT.NET.USER.ZS": {
+        "value": 88.65381638,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 48985.7307807924,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 68720337,
+        "year": 2025
+      }
+    },
+    "GB": {
+      "IT.NET.USER.ZS": {
+        "value": 95.4720993,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 57601.9621201954,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 69487000,
+        "year": 2025
+      }
+    },
+    "ID": {
+      "IT.NET.USER.ZS": {
+        "value": 72.78075544,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 5059.62596411213,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 285721236,
+        "year": 2025
+      }
+    },
+    "IN": {
+      "IT.NET.USER.ZS": {
+        "value": 70,
+        "year": 2025
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 2702.47987141553,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 1463865525,
+        "year": 2025
+      }
+    },
+    "JP": {
+      "IT.NET.USER.ZS": {
+        "value": 85.54153081,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 35951.0449549304,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 123366734,
+        "year": 2025
+      }
+    },
+    "KR": {
+      "IT.NET.USER.ZS": {
+        "value": 97.89563777,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 36226.9663637512,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 51684564,
+        "year": 2025
+      }
+    },
+    "MY": {
+      "IT.NET.USER.ZS": {
+        "value": 98.0206059,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 13124.5554178269,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 35977838,
+        "year": 2025
+      }
+    },
+    "PH": {
+      "IT.NET.USER.ZS": {
+        "value": 67.26300914,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 4170.72347271451,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 116786962,
+        "year": 2025
+      }
+    },
+    "SG": {
+      "IT.NET.USER.ZS": {
+        "value": 94.37757178,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 98813.9788172877,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 6111175,
+        "year": 2025
+      }
+    },
+    "TH": {
+      "IT.NET.USER.ZS": {
+        "value": 90.86718789,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 8056.56359761558,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 71619863,
+        "year": 2025
+      }
+    },
+    "US": {
+      "IT.NET.USER.ZS": {
+        "value": 94.69380188,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 90026.5163005744,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 341784857,
+        "year": 2025
+      }
+    },
+    "VN": {
+      "IT.NET.USER.ZS": {
+        "value": 84.15,
+        "year": 2024
+      },
+      "NY.GDP.PCAP.CD": {
+        "value": 5065.99091899299,
+        "year": 2025
+      },
+      "SP.POP.TOTL": {
+        "value": 101598527,
+        "year": 2025
+      }
+    }
+  },
+  "fetched_at": "2026-10-10T18:50:30+00:00",
+  "indicators": [
+    "SP.POP.TOTL",
+    "IT.NET.USER.ZS",
+    "NY.GDP.PCAP.CD"
+  ],
+  "license": "World Bank WDI, CC BY 4.0; original providers may vary by indicator",
+  "method": "Latest available per-country per-indicator year within the last 10 calendar years. Never interpolated.",
+  "source": "World Bank WDI"
+}

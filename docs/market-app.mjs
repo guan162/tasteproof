@@ -1,4 +1,4 @@
-import {INDICATORS, COUNTRIES, internetPopulation, calculateTest, worldBankIndicatorUrl, validateData, parseWorldBank} from "./market-model.mjs";
+import {INDICATORS, COUNTRIES, internetPopulation, calculateTest, worldBankIndicatorUrl, validateData, parseWorldBank} from "./market-model.mjs?v=20261011-2";
 
 const $ = id => document.getElementById(id);
 const format = new Intl.NumberFormat("zh-TW",{maximumFractionDigits:1});
@@ -125,11 +125,11 @@ async function changeMarkets(){
   finally{$("compareBtn").disabled=false}
 }
 function calc(){
-  const scenario={
-    price:$("price").value,cost:$("variableCost").value,
-    budget:$("budget").value,clickCost:$("cpc").value,conversion:$("conversion").value
-  };
   try{
+    const scenario={
+      price:$("price").value,cost:$("variableCost").value,
+      budget:$("budget").value,clickCost:$("cpc").value,conversion:$("conversion").value
+    };
     const computed=calculateTest(scenario);
     lastScenario={inputs:scenario,computed};
     $("margin").textContent=fmtMoney(computed.margin);
@@ -168,5 +168,9 @@ function saveReport(){
 initCountries();
 $("compareBtn").addEventListener("click",changeMarkets);
 $("calcBtn").addEventListener("click",calc);
+// Keep the results up to date as each number is changed (no button press required).
+for (const inputId of ["price","variableCost","budget","cpc","conversion"]) {
+  $(inputId).addEventListener("input",calc);
+}
 $("report-action").addEventListener("click",saveReport);
 calc();loadData();

@@ -128,7 +128,7 @@ function calc(){
   try{
     const scenario={
       price:$("price").value,cost:$("variableCost").value,
-      budget:$("budget").value,clickCost:$("cpc").value,conversion:$("conversion").value
+      budget:$("adBudget").value,clickCost:$("cpc").value,conversion:$("conversion").value
     };
     const computed=calculateTest(scenario);
     lastScenario={inputs:scenario,computed};

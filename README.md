@@ -41,3 +41,39 @@ Only Python standard library is required for this sample.
 - This is an exploratory contest submission project, **not** a proven or recurring NT$30,000/month income mechanism.
 
 Official competition: https://qloo.devpost.com/rules
+
+
+## Phase 2: real Qloo integration — code complete, credentials/deployment pending
+
+The repository now contains a **Cloudflare Worker backend adapter** at [worker/index.mjs](worker/index.mjs), a [live-only UI](docs/live.html), a [deployment configuration](wrangler.toml), and [contract tests](tests/worker.test.mjs).
+
+- The Worker makes server-side calls to Qloo `GET /search` and `GET /v2/insights` with an `X-Api-Key` header.
+- An optional reference brand is resolved by **exact brand name**. If no brand is supplied, geographic taste tags are analyzed without brand-specific claims.
+- A scan covers one baseline and up to three candidate cities. It never fabricates results if Qloo returns an error.
+- The Worker has a built-in request ceiling and requires the Cloudflare Rate Limiting binding for live requests.
+- Onboarding must use a **legitimate Qloo API key**, from the official hackathon access process, in a private Cloudflare secret.
+- No successful authorized live Qloo round trip has been recorded yet. **Qloo mode is not active on the public site.**
+
+### Deployment procedure (only after API access is approved)
+
+A Cloudflare account is needed. These are administrative operations and must be authorized by the account holder; do not send credentials to a chat.
+
+1. In the project checkout, install Node.js and run `npx wrangler login` with your Cloudflare account.
+2. Review [wrangler.toml](wrangler.toml). It uses the allowed GitHub Pages origin and a five-requests-per-minute Cloudflare rate-limit binding.
+3. Set the secret with `npx wrangler secret put QLOO_API_KEY` **in the secure interactive prompt**, not in GitHub files. Determine the correct Qloo API host from the approved key's instructions; set `QLOO_API_ORIGIN` accordingly (the public docs use `https://api.qloo.com`).
+4. Run `npx wrangler deploy`. Confirm `GET https://YOUR-WORKER.workers.dev/health` reports `qloo_key_configured: true`.
+5. Edit [docs/config.js](docs/config.js) to set **only the public Worker origin** (never the key): `window.TASTEPROOF_WORKER_ORIGIN = "https://YOUR-WORKER.workers.dev";`.
+6. Test the public [Qloo analysis screen](https://guan162.github.io/tasteproof/live.html) with a supported city pair and a reference brand that Qloo can resolve. Compare results against actual Qloo API responses.
+7. Check Qloo usage rights, key quota and Cloudflare limits before allowing external judges or other traffic.
+
+**Do not claim this entry is Qloo-connected or competition-ready before live validation succeeds.** Qloo affinity/tag overlap is neither guaranteed representative demand nor estimated profit. A contest prize is a single payment, not recurring revenue.
+
+Official evidence: [Qloo API documentation](https://github.com/qloo/docs-public), [Agentic Hackathon rules](https://qloo.devpost.com/rules), [Cloudflare rate limiting](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/).
+
+### New tests
+
+```sh
+node --test tests/worker.test.mjs
+```
+
+The tests use stub Qloo data; they validate request structure, secret isolation, schema rejection, rate limiting, and input validation **without representing a real upstream connection**.

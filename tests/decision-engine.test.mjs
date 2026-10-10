@@ -21,7 +21,7 @@ test('uncertainty stress shows negative and positive outcomes rather than invent
  assert.ok(a.scenarios[0].estimatedNet<0);
  assert.ok(a.scenarios[1].estimatedNet>0);
  assert.ok(a.scenarios[2].estimatedNet>a.scenarios[1].estimatedNet);
- assert.match(a.caution,/沒有證據/);
+ assert.match(a.caution,/不能推導/);
  assert.match(a.dossier[1].grade,/未證明/);
 });
 

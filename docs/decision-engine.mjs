@@ -48,6 +48,8 @@ export function evaluateHypothesis(input){
  const decisive = !viable ? "成本結構已經不合理：每單沒有正毛利"
    : breakEvenRate>100 ? "假設點擊成本高於每單毛利，僅靠這種廣告流量無法回本"
    : conversion < breakEvenRate ? "以目前自行假設的成交率，廣告預算無法回本"
+   : desired>0 && neededCVR>100 ? "即使所有假設的點擊都成交，也達不到設定的淨利目標"
+   : desired>0 && neededCVR>conversion ? "回本不等於達標：設定的淨利目標需要遠高於原假設的成交率"
    : "以自行假設的數字可達損益兩平；但沒有真實成交證據";
  const pilotBudget=Math.min(budget,600);
  const pilotVisits=pilotBudget/cpc;

@@ -1,0 +1,20 @@
+name: Verify evidence dashboard
+on:
+  push:
+    paths:
+      - "docs/index.html"
+      - "docs/market-app.mjs"
+      - "docs/market-model.mjs"
+      - "tests/market.test.mjs"
+      - ".github/workflows/market-tests.yml"
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify calculations, claims and source links
+        run: node --test tests/market.test.mjs

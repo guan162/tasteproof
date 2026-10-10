@@ -1,0 +1,17 @@
+name = "tasteproof-qloo-api"
+main = "worker/index.mjs"
+compatibility_date = "2026-09-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://guan162.github.io"
+QLOO_API_ORIGIN = "https://api.qloo.com"
+
+# Global anonymous request ceiling per Cloudflare location. This is a guardrail,
+# not a guarantee of absolute quota protection or Qloo API commercial rights.
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1726061"
+
+  [ratelimits.simple]
+  limit = 5
+  period = 60

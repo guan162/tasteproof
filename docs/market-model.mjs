@@ -34,10 +34,22 @@ export function internetPopulation(country) {
   return {value:p.value*net.value/100,years:[p.year,net.year],
     note:"總人口 × 網路使用率；可能混用不同年份，並非買家數量"};
 }
+export function parseAmount(raw, name) {
+  // Explicit, field-specific messages. Avoid silent Number("") => 0.
+  // Normalize common Chinese/European decimal separator only for simple numeric strings.
+  const text = String(raw ?? "").trim();
+  if (text === "") throw Error(name + "尚未填寫");
+  const normalized = text.replace(/，/g, ",").replace(/,/g, ".");
+  const value = Number(normalized);
+  if (!Number.isFinite(value)) throw Error(name + "格式錯誤，請輸入數字（例如 1000 或 1.5）");
+  return value;
+}
 export function calculateTest({price,cost,budget,clickCost,conversion}) {
-  const v=[price,cost,budget,clickCost,conversion].map(Number);
-  if(v.some(x=>!Number.isFinite(x))) throw Error("請輸入有效數字");
-  const [p,c,b,cp,cv]=v;
+  const p=parseAmount(price,"每單售價");
+  const c=parseAmount(cost,"每單直接成本");
+  const b=parseAmount(budget,"測試廣告預算");
+  const cp=parseAmount(clickCost,"每次點擊成本");
+  const cv=parseAmount(conversion,"成交率");
   if(p<=0||c<0||b<=0||cp<=0||cv<0||cv>100) throw Error("金額需符合正數限制，轉換率介於 0% 與 100%");
   const margin=p-c;
   if(margin<=0) return {margin,viable:false,reason:"售價沒有高於每單直接成本；增加廣告費只會擴大損失"};

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TasteProof — Qloo Live Evidence</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0b1719;color:#ecf4ec;font:16px/1.6 system-ui,-apple-system,sans-serif}
+main{max-width:1020px;margin:0 auto;padding:48px 24px}a{color:#bde8b0}
+h1{font-size:clamp(36px,6vw,60px);line-height:1.05;letter-spacing:-.055em;margin:18px 0}
+.lead{color:#9fbab0;max-width:700px}
+.warn{background:#33291b;border:1px solid #8c7448;border-radius:12px;padding:15px;color:#edd8b0;margin:26px 0}
+.columns{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.box{border:1px solid #35534c;border-radius:18px;background:#12282a;padding:22px}
+label{display:block;margin:18px 0 7px;font-weight:650;color:#b9d0c8;font-size:13px}
+input,select{padding:12px;background:#203739;border:1px solid #56736d;color:white;border-radius:9px;width:100%;font:inherit}
+button{background:#b5e5ab;color:#13251e;border:0;border-radius:10px;padding:13px;font-weight:750;font:inherit;cursor:pointer;margin-top:19px;width:100%}
+button:disabled{background:#465951;color:#95b1a3;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.grid label{font-size:13px;display:flex;align-items:center;gap:8px;margin:5px 0}
+.grid input{width:auto}
+.result{white-space:pre-wrap;overflow-wrap:anywhere;background:#173437;padding:17px;border-radius:12px;color:#c2d7cf}
+small{color:#9fb5ae}#connection{color:#bfe0ce;font-weight:700}
+@media(max-width:720px){.columns{grid-template-columns:1fr}main{padding:24px 16px}}
+</style>
+<main><p><a href="./">← Back to demo</a></p>
+<div style="color:#b5e5ab;letter-spacing:.12em;font-weight:700;font-size:12px">REAL DATA · SERVER-SIDE INTEGRATION</div>
+<h1>Explore what Qloo actually returns.</h1>
+<p class="lead">Once the secure backend and authorized Qloo API credential are deployed, this page will display traceable taste-tag results. No fictional values are ever substituted for live failures.</p>
+<div class="warn"><strong>Current status: <span id="connection">Checking configuration…</span></strong><div style="font-size:13px;margin-top:8px">The Qloo API credential belongs on the backend only. Never enter it on this site, in a public repository, or in chat. List overlap is not a sales forecast.</div></div>
+<div class="columns">
+<section class="box"><h2>01 / Request analysis</h2>
+<label for="concept">Brand or concept label</label><input id="concept" value="Aurora Studio" maxlength="80">
+<label for="brand">Optional real reference brand (exact Qloo match)</label><input id="brand" placeholder="e.g. Starbucks" maxlength="80">
+<label for="sector">Sector</label><select id="sector"><option>Coffee</option><option>Lifestyle</option><option>Beauty</option></select>
+<label for="baseline">Baseline market</label><select id="baseline"></select>
+<label>Targets (1–3)</label><div class="grid" id="targets"></div>
+<button id="run" disabled>Run Qloo analysis</button>
+<p><small>Up to 5 upstream Qloo calls per run; subject to server rate limits and the provider's API access policy.</small></p></section>
+<section class="box"><h2>02 / Evidence trail</h2><p id="intro" style="color:#9fb5ae">Live API is not active yet.</p><div class="result" id="result" role="status" aria-live="polite">No live requests have been made.</div></section>
+</div>
+<p style="font-size:13px;color:#9fb5ae;margin-top:24px">Official API details: <a href="https://github.com/qloo/docs-public">Qloo's public documentation</a> · <a href="https://github.com/guan162/tasteproof">Open-source implementation</a></p>
+</main>
+<script src="./config.js"></script>
+<script>
+const cities=['Tokyo','Taipei','Seoul','London','New York','Paris'];
+const baseline=document.getElementById('baseline'),targets=document.getElementById('targets');
+for(const city of cities){baseline.add(new Option(city,city));const lab=document.createElement('label');const input=document.createElement('input');input.type='checkbox';input.value=city;input.checked=['Taipei','Seoul'].includes(city);lab.append(input,document.createTextNode(city));targets.append(lab)}
+baseline.value='Tokyo';
+const origin=typeof window.TASTEPROOF_WORKER_ORIGIN==='string'?window.TASTEPROOF_WORKER_ORIGIN.replace(/\/$/,''):'';
+const status=document.getElementById('connection'),run=document.getElementById('run'),out=document.getElementById('result');
+async function check(){
+ if(!/^https:\/\/[^/]+$/.test(origin)){status.textContent='Not connected — Qloo backend pending deployment';return}
+ try{const r=await fetch(origin+'/health');const d=await r.json();
+   if(!r.ok||!d.qloo_key_configured){status.textContent='Qloo backend is online, but key is not configured';return}
+   status.textContent='Backend key configured (upstream API access not yet verified)';
+   run.disabled=false;
+ }catch(e){status.textContent='Backend unreachable';}
+}
+run.addEventListener('click',async()=>{
+ const selected=[...targets.querySelectorAll('input:checked')].map(x=>x.value).filter(x=>x!==baseline.value);
+ if(selected.length<1||selected.length>3){out.textContent='Choose 1–3 different target markets.';return}
+ run.disabled=true;out.textContent='Requesting Qloo…';
+ try{
+   const payload={brand:document.getElementById('concept').value,reference_brand:document.getElementById('brand').value,
+      sector:document.getElementById('sector').value,base:baseline.value,targets:selected};
+   const response=await fetch(origin+'/api/scan',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});
+   const data=await response.json();
+   if(!response.ok)throw new Error(data.error||('HTTP '+response.status));
+   document.getElementById('intro').textContent='Source: Qloo insights; this is a tag-list comparison, not verified consumer intent.';
+   out.textContent=JSON.stringify(data,null,2);
+ }catch(e){out.textContent='Live Qloo request failed: '+e.message+'\nNo demo data was substituted.'}
+ finally{run.disabled=false}
+});
+check();
+</script></html>

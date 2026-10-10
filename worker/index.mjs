@@ -143,6 +143,9 @@ export default {
       const raw = await request.text();
       if (raw.length > 2048) throw new PublicError('Request too large', 413);
       const p = JSON.parse(raw);
+      if (!env.RATE_LIMITER || typeof env.RATE_LIMITER.limit !== 'function') throw new PublicError('Rate limiter is not configured', 503);
+      const limit = await env.RATE_LIMITER.limit({key:'tasteproof-public-api'});
+      if (!limit.success) throw new PublicError('Demo request limit reached; retry later', 429);
       return respond(await analyze(p, env), 200, allowedOrigin);
     } catch (err) {
       if (err instanceof SyntaxError) return respond({error:'Invalid JSON'},400,allowedOrigin);
